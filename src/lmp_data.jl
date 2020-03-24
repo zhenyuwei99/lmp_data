@@ -1,5 +1,47 @@
 module lmp_data
 
+################
+# Useful functions
+################
+
+function str_cmp(str_cmp::AbstractString, str_goal::String, len)
+    str_cmp[1:len] == str_goal[1:len]
+end
+
+function str_cmp(str_cmp::AbstractString, str_goal::String)
+    len = length(str_goal)
+    if length(str_cmp) <= len
+        return false
+    end
+    str_cmp[1:len] == str_goal[1:len]
+end
+
+function dist(coord_01, coord_02)
+    num_dims = length(coord_01)
+    dist = 0
+    for dim = 1 : num_dims
+        dist += (coord_01[dim] - coord_02[dim])^2
+    end
+    sqrt(dist)
+end
+function str2float(str::AbstractString)
+    str = split(str)
+    [parse(Float64, str[n]) for n = 1:length(str)]
+end
+
+
+function diag(vec::AbstractArray)
+    len = length(vec)
+    result = zeros(len, len)
+    for i = 1 : len
+        result[i, i] = vec[i]
+    end
+    result
+end
+
+################
+# read_dump
+################
 """
     read_dump_prim(dump_name::String)
 
@@ -45,8 +87,7 @@ function read_dump_prim(dump_name::String)
 end
 
 """
-    split_dump!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, 
-        coord=false, coord_scl=false, vel=false, force=false, acc=false)
+    split_dump!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
 
 This will split data readed from dump file, adding variable named same as `kwg` before to `data`.
 The value of `kwg` can be `false` or column range of property of interest.
@@ -97,8 +138,7 @@ function split_dump!(data::Dict; id=false, atom_type=false, mol=false, element=f
 end
         
 """
-    read_dump(dump_name::String; id=false, atom_type=false, mol=false, element=false, mass=false, 
-        coord=false, coord_scl=false, vel=false, force=false, acc=false)
+    read_dump(dump_name::String; id=false, atom_type=false, mol=false, element=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
 
 This will read data in `dump_name` file and return a Dict which contains elements
 - `step_vec`
