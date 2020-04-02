@@ -1,5 +1,7 @@
 module lmp_data
 
+using Statistics
+
 include("useful_funcs.jl")
 export dist, str2float, diag, copy_array
 
