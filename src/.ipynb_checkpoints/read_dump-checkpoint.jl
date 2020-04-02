@@ -28,7 +28,7 @@ function read_dump_prim(dump_name::String)
     atom_info = Array{Float64}(undef, (num_steps, size(atom_info,1), size(atom_info, 2)))
     
     # Rearanging Data
-    for step = 1:num_steps
+    for step = 2:num_steps
         step_vec = vcat(step_vec, parse(Int64, res[(step-1)*4+1][2:end]))
         box_info[step, :, :] = Array(hcat([str2float(x) for x in split(res[(step-1)*4+3], "\n")[2:end-1]]...)')
         atom_temp = Array(hcat([str2float(x) for x in split(res[(step-1)*4+4], "\n")[2:end-1]]...)')
