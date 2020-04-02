@@ -1,7 +1,7 @@
-```
+"""
     genr_box_diag(data::Dict)
 This will return the matrix of box size information
-```
+"""
 function genr_box_diag(data::Dict)
     box_diag = copy_array(data["box_info"])
     box_diag = mean(box_diag, dims=1)[1, :, :]
@@ -10,10 +10,10 @@ function genr_box_diag(data::Dict)
     return box_diag
 end
 
-```
+"""
     genr_box_inv(data::Dict)
 This will return the inverse matrix of box size information
-```
+"""
 function genr_box_inv(data::Dict)
     box_diag = genr_box_diag(data)
     return inv(box_diag)
