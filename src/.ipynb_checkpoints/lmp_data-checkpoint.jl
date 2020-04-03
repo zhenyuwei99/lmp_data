@@ -2,6 +2,13 @@ module lmp_data
 
 using Statistics
 
+include("Constants.jl")
+export Const_k_b, Const_n_a, Const_density_wat,
+    Const_kcal2j, Const_kcalm2j, Const_kcalm2t,
+    Const_g2kg, Const_kg2g, Const_gm2g, Const_gm2kg,
+    Const_an2m, Const_an2nm, Const_nm2m, Const_cm2an, Const_dm2m, Const_m2dm,
+    Const_fs2s, Const_ps2s, Const_ns2s
+
 include("useful_funcs.jl")
 export dist, str2float, diag, copy_array
 
