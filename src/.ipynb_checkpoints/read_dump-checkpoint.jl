@@ -29,7 +29,7 @@ function read_dump_prim(dump_name::String)
     box_info = Array{Float64}(undef, (num_steps, size(box_info, 1), size(box_info, 2)))
     box_info[1, :, :] .= box_temp
     atom_info = Array{Float64}(undef, (num_steps, size(atom_info, 1), size(atom_info, 2)))
-    atom_info[1, :, :] .= atom_temp
+    atom_info[1, :, :] .= sortslices(atom_temp, dims=1)
     
     # Rearanging Data
     for step = 2:num_steps
@@ -138,4 +138,42 @@ function read_dump(dump_name::String; id=false, atom_type=false, mol=false, elem
     split_dump!(data, id=id, atom_type=atom_type, mol=mol, element=element, mass=mass, 
         coord=coord, vel=vel, acc=acc, force=force)
     return data
+end
+
+"""
+    function momentum!(data::Dict)
+
+This will add a component called "momentum" into `data` while `vel` and `mass` is contained in `data`
+"""
+function momentum!(data::Dict)
+    try
+        data["mass"]
+    catch
+        error("Info of \"mass\" is not contained in `data` ")
+    end
+    momentum = zeros(size(data["vel"]))
+    mass_diag = diag(data["mass"])
+    for dim = 1 : 3
+        momentum[:, :, dim] .= data["vel"][:, :, dim] * mass_diag
+    end
+    data["momentum"] = momentum
+    return 0
+end
+
+"""
+    function mass!(data::Dict, mass_vec, id_vec=false)
+
+This will add a component called "mass" into `data`. Elements in `mass_vec` are the mass of atoms with id correspond to `id_vec`. If `id_vec` is set to default, it means `id_vec = [1, 2, 3, ... length(mass_vec)]'
+"""
+function mass!(data::Dict, mass_vec, id_vec=false)
+    if id_vec == false
+        id_vec = [i for i = 1:length(mass_vec)]
+    end
+    id = copy_array(data["atom_type"][1, :])
+    mass = zeros(size(id))
+    for i = 1:length(mass_vec)
+        mass[findall(x->x==id_vec[i], id)] .= mass_vec[i]
+    end
+    data["mass"] = mass
+    return 0
 end
