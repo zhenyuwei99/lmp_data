@@ -21,11 +21,15 @@ function read_dump_prim(dump_name::String)
     num_atoms = parse(Int64, res[2][2:end])
     box_info = [str2float(x) for x in split(res[3], "\n")[2:end-1]]
     box_info = Array(hcat(box_info...)')
+    box_temp = copy_array(box_info)
     atom_info = [str2float(x) for x in split(res[4], "\n")[2:end-1]]
-    atom_info= Array(hcat(atom_info...)')
+    atom_info = Array(hcat(atom_info...)')
+    atom_temp = copy_array(atom_info)
     
-    box_info = Array{Float64}(undef, (num_steps, size(box_info,1), size(box_info, 2)))
-    atom_info = Array{Float64}(undef, (num_steps, size(atom_info,1), size(atom_info, 2)))
+    box_info = Array{Float64}(undef, (num_steps, size(box_info, 1), size(box_info, 2)))
+    box_info[1, :, :] .= box_temp
+    atom_info = Array{Float64}(undef, (num_steps, size(atom_info, 1), size(atom_info, 2)))
+    atom_info[1, :, :] .= atom_temp
     
     # Rearanging Data
     for step = 2:num_steps
