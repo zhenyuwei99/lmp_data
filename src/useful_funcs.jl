@@ -26,3 +26,14 @@ function copy_array(goal)
     res[:] = goal[:]
     return res
 end
+
+function leastsq(x, y; dims=2)
+    mat_left = Array(hcat([
+        [sum(x.^i) for i = j:j+dims-1] for j = 0:dims-1
+    ]...)')
+
+    mat_right = [
+        sum(y.* x.^i) for i = 0:dims-1
+    ]
+    return inv(mat_left) * mat_right
+end

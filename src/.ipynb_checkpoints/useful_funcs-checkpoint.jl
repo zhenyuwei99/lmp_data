@@ -1,15 +1,3 @@
-function str_cmp(str_cmp::AbstractString, str_goal::String, len)
-    str_cmp[1:len] == str_goal[1:len]
-end
-
-function str_cmp(str_cmp::AbstractString, str_goal::String)
-    len = length(str_goal)
-    if length(str_cmp) <= len
-        return false
-    end
-    str_cmp[1:len] == str_goal[1:len]
-end
-
 function dist(coord_01, coord_02)
     num_dims = length(coord_01)
     dist = 0
@@ -37,4 +25,15 @@ function copy_array(goal)
     res = zeros(typeof(goal).parameters[1], size(goal))
     res[:] = goal[:]
     return res
+end
+
+function leastsq(x, y; dims=2)
+    mat_left = Array(hcat([
+        [sum(x.^i) for i = j:j+dims-1] for j = 0:dims-1
+    ]...)')
+
+    mat_right = [
+        sum(y.* x.^i) for i = 0:dims-1
+    ]
+    return inv(mat_left) * mat_right
 end

@@ -151,13 +151,19 @@ function momentum!(data::Dict)
     catch
         error("Info of \"mass\" is not contained in `data` ")
     end
+    try
+        data["vel"]
+    catch
+        error("Info of \"vel\" is not contained in `data` ")
+    end
+    
     momentum = zeros(size(data["vel"]))
     mass_diag = diag(data["mass"])
     for dim = 1 : 3
         momentum[:, :, dim] .= data["vel"][:, :, dim] * mass_diag
     end
     data["momentum"] = momentum
-    return 0
+    return "momentum has been added to `data`"
 end
 
 """
@@ -175,5 +181,21 @@ function mass!(data::Dict, mass_vec, id_vec=false)
         mass[findall(x->x==id_vec[i], id)] .= mass_vec[i]
     end
     data["mass"] = mass
-    return 0
+    return "mass has been added to `data`"
+end
+
+
+"""
+    function time_step!(data::Dict, time_len, converter, dump_len)
+This will add a component, which is an array contain all information needed to calulate the time in MD_simulation, called "time_step" into `data`.
+
+# Parameters:
+- `data`: Dict variable create by `read_dump()`.
+- `time_len`: length of time step of simulation.
+- `converter`: unit converter that convert time_len to second.
+- `dump_len`: length of dump step.
+"""
+function time_step!(data::Dict, time_len, converter, dump_len)
+    data["time_step"] = [time_len, converter, dump_len]
+    return "time_step has been added to `data`"
 end
