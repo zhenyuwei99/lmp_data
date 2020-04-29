@@ -1,8 +1,8 @@
 """
-    MSD!(data::Dict; alpha=10)
+    MSD!(data::Dict, alpha=10)
 This will add a variable "MSD" to `data` which is created by `read_dump`. "MSD" is the abbreviation of Mean Square Displacement (MSD), which could be used to calculate diffusion coefficients with the Einstein relationship. `alpha` is the ration between simulation time and the maximum of MSD calculating times.
 """
-function MSD!(data::Dict; alpha=10)
+function MSD!(data::Dict, alpha=10)
     try
         data["coord_corr"]
     catch
