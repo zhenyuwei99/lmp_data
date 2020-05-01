@@ -1,29 +1,29 @@
 function constants()
     res = Dict()
     # Physical Constants
-    res["Const_k_b"] = 1.38065e-23;
-    res["Const_n_a"] = 6.02214e23;
-    res["Const_density_wat"] = 1e3;      # Unit: kg/m^3
+    res["k_b"] = 1.38065e-23;
+    res["n_a"] = 6.02214e23;
+    res["density_wat"] = 1e3;      # Unit: kg/m^3
     # Energy Converters
-    res["Const_kcal2j"] = 4.184e3;
-    res["Const_kcalm2j"] = Const_kcal2j/Const_n_a;
-    res["Const_kcalm2t"] = Const_kcalm2j/Const_k_b;
+    res["kcal2j"] = 4.184e3;
+    res["kcalm2j"] = Const_kcal2j/Const_n_a;
+    res["kcalm2t"] = Const_kcalm2j/Const_k_b;
     # Mass Converters
-    res["Const_g2kg"] = 1e-3;
-    res["Const_kg2g"] = 1e3;
-    res["Const_gm2g"] = 1/Const_n_a;
-    res["Const_gm2kg"] = Const_g2kg/Const_n_a;
+    res["g2kg"] = 1e-3;
+    res["kg2g"] = 1e3;
+    res["gm2g"] = 1/Const_n_a;
+    res["gm2kg"] = Const_g2kg/Const_n_a;
     # Length Converters
-    res["Const_an2m"] = 1e-10;
-    res["Const_an2nm"] = 1e-1;
-    res["Const_nm2m"] = 1e-9;
-    res["Const_cm2an"] = 1e8;
-    res["Const_dm2m"] = 1e-1;
-    res["Const_m2dm"] = 1/Const_dm2m;
+    res["an2m"] = 1e-10;
+    res["an2nm"] = 1e-1;
+    res["nm2m"] = 1e-9;
+    res["cm2an"] = 1e8;
+    res["dm2m"] = 1e-1;
+    res["m2dm"] = 1/Const_dm2m;
     # Time Converters
-    res["Const_fs2s"] = 1e-15;
-    res["Const_ps2s"] = 1e-12;
-    res["Const_ns2s"] = 1e-9;
+    res["fs2s"] = 1e-15;
+    res["ps2s"] = 1e-12;
+    res["ns2s"] = 1e-9;
     
     return res
 end

@@ -154,7 +154,7 @@ This will return a new Dict contain elements below:
 - 1) "atom_type" should be included in `data`, which is created by `read_dump`
 - 2) `split_info!` should be called to get details of "atom_info"
 """
-function split_atom(data::Dict, atom_type::Int64)
+function split_atom(data::Dict; atom_type::Int64)
     try
         data["atom_type"]
     catch
@@ -213,7 +213,7 @@ function mass!(data::Dict, mass_vec, id_vec=false)
         mass[findall(x->x==id_vec[i], id)] .= mass_vec[i]
     end
     data["mass"] = mass
-    println("\"mass\" has been added to `data`")
+    println("\"mass\"\thas been added to `data`")
 end
 
 """
@@ -226,7 +226,7 @@ This will add a component, which is an array contain all information needed to c
 - `converter`: unit converter that convert time_len to second.
 - `dump_len`: length of dump step.
 """
-function time_step!(data::Dict, time_len, converter, dump_len)
+function time_step!(data::Dict; time_len=1, converter=1, dump_len=1)
     data["time_step"] = [time_len, converter, dump_len]
-    println("\"time_step\" has been added to `data`")
+    println("\"time_step\"\thas been added to `data`")
 end

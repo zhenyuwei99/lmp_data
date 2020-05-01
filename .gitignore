@@ -3,6 +3,8 @@
 /target/
 developing_files
 test_files
+.ipynb_checkpoint
 
+push.sh
 # OS generated files #
 .DS_Store
