@@ -66,39 +66,39 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     atom_info = data["atom_info"]
     if id != false
         data["id"] = convert.(Int64, atom_info[:, :, id])
-        println(" \"id\"\t\thas been added in `data` ")
+        println("\"id\"\t\thas been added in `data` ")
     end
     if atom_type != false
         data["atom_type"] = convert.(Int64, atom_info[:, :, atom_type])
-        println(" \"atom_type\"\thas been added in `data` ")
+        println("\"atom_type\"\thas been added in `data` ")
     end
     if mol != false
         data["mol"] = convert.(Int64, atom_info[:, :, mol])
-        println(" \"mol\"\thas been added in `data` ")
+        println("\"mol\"\thas been added in `data` ")
     end
     if element != false
         data["element"] = convert.(Int64, atom_info[:, :, element])
-        println(" \"element\"\thas been added in `data` ")
+        println("\"element\"\thas been added in `data` ")
     end
     if mass != false
         data["mass"] = atom_info[:, :, mass]
-        println(" \"mass\"\thas been added in `data` ")
+        println("\"mass\"\thas been added in `data` ")
     end
     if coord != false
         data["coord"] = atom_info[:, :, coord]
-        println(" \"coord\"\thas been added in `data` ")
+        println("\"coord\"\thas been added in `data` ")
     end
     if vel != false
         data["vel"] = atom_info[:, :, vel]
-        println(" \"vel\"\thas been added in `data` ")
+        println("\"vel\"\thas been added in `data` ")
     end
     if acc != false
         data["acc"] = atom_info[:, :, acc]
-        println(" \"acc\"\thas been added in `data` ")
+        println("\"acc\"\thas been added in `data` ")
     end
     if force != false
         data["force"] = atom_info[:, :, force]
-        println(" \"force\"\thas been added in `data` ")
+        println("\"force\"\thas been added in `data` ")
     end
 end
         
@@ -139,11 +139,12 @@ function read_dump(dump_name::String; id=false, atom_type=false, mol=false, elem
     data = read_dump_prim(dump_name)
     split_info!(data, id=id, atom_type=atom_type, mol=mol, element=element, mass=mass, 
         coord=coord, vel=vel, acc=acc, force=force)
+    print("\nInformation of atom with \"atom_type=2\" has been created!")
     return data
 end
 
 """
-    split_atom(data::Dict, atom_type::Int64)
+    split_atom(data::Dict; atom_type::Int64)
 This will return a new Dict contain elements below:
 - "step_vec"
 - "num_atoms"
@@ -226,7 +227,7 @@ This will add a component, which is an array contain all information needed to c
 - `converter`: unit converter that convert time_len to second.
 - `dump_len`: length of dump step.
 """
-function time_step!(data::Dict; time_len=1, converter=1, dump_len=1)
+function time_step!(data::Dict, time_len, converter, dump_len)
     data["time_step"] = [time_len, converter, dump_len]
     println("\"time_step\"\thas been added to `data`")
 end
