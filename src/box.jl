@@ -41,5 +41,5 @@ function PBC!(data::Dict)
     end
     data["coord_corr"] = coord_corr;
     
-    return "PBC has been added to `data`"
+    println("\"coord_corr\"\thas been added to `data`")
 end

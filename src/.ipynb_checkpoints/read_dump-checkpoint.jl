@@ -1,6 +1,3 @@
-################
-# read_dump
-################
 """
     read_dump_prim(dump_name::String)
 
@@ -50,7 +47,7 @@ function read_dump_prim(dump_name::String)
 end
 
 """
-    split_dump!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
+    split_info!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
 
 This will split data readed from dump file, adding variable named same as `kwg` before to `data`.
 The value of `kwg` can be `false` or column range of property of interest.
@@ -60,44 +57,49 @@ The value of `kwg` can be `false` or column range of property of interest.
 ```julia-repl
 dump_name = "xxxx" # name of dump file
 data = read_dump_prim(dump_name)
-split_dump!(data, id=1, atom_type=2, coord=3:5)
+split_info!(data, id=1, atom_type=2, coord=3:5)
 ```
 Code above will add three elements, named as "id", "atom_type", and "coord", to data which contains variable in column 1, 2, 3:5 of `data["atom_info"]`
 """
-function split_dump!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, 
-        coord=false, coord_scl=false, vel=false, force=false, acc=false)
+function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, 
+        coord=false, vel=false, force=false, acc=false)
     atom_info = data["atom_info"]
     if id != false
         data["id"] = convert.(Int64, atom_info[:, :, id])
+        println(" \"id\"\t\thas been added in `data` ")
     end
     if atom_type != false
         data["atom_type"] = convert.(Int64, atom_info[:, :, atom_type])
+        println(" \"atom_type\"\thas been added in `data` ")
     end
     if mol != false
         data["mol"] = convert.(Int64, atom_info[:, :, mol])
+        println(" \"mol\"\thas been added in `data` ")
     end
     if element != false
         data["element"] = convert.(Int64, atom_info[:, :, element])
+        println(" \"element\"\thas been added in `data` ")
     end
     if mass != false
         data["mass"] = atom_info[:, :, mass]
+        println(" \"mass\"\thas been added in `data` ")
     end
     if coord != false
         data["coord"] = atom_info[:, :, coord]
-    end
-    if coord_scl != false
-        data["coord_scl"] = atom_info[:, :, coord_scl]
+        println(" \"coord\"\thas been added in `data` ")
     end
     if vel != false
         data["vel"] = atom_info[:, :, vel]
+        println(" \"vel\"\thas been added in `data` ")
     end
     if acc != false
         data["acc"] = atom_info[:, :, acc]
+        println(" \"acc\"\thas been added in `data` ")
     end
     if force != false
         data["force"] = atom_info[:, :, force]
+        println(" \"force\"\thas been added in `data` ")
     end
-    return 0
 end
         
 """
@@ -135,9 +137,39 @@ Where `id`, `atom_type`, and `coord` are values of `atom_info` in column 1, 2, 3
 function read_dump(dump_name::String; id=false, atom_type=false, mol=false, element=false, mass=false, 
         coord=false, coord_scl=false, vel=false, force=false, acc=false)
     data = read_dump_prim(dump_name)
-    split_dump!(data, id=id, atom_type=atom_type, mol=mol, element=element, mass=mass, 
+    split_info!(data, id=id, atom_type=atom_type, mol=mol, element=element, mass=mass, 
         coord=coord, vel=vel, acc=acc, force=force)
     return data
+end
+
+"""
+    split_atom(data::Dict, atom_type::Int64)
+This will return a new Dict contain elements below:
+- "step_vec"
+- "num_atoms"
+- "num_steps"
+- "box_info"
+- "atom_info"
+# Notice
+- 1) "atom_type" should be included in `data`, which is created by `read_dump`
+- 2) `split_info!` should be called to get details of "atom_info"
+"""
+function split_atom(data::Dict, atom_type::Int64)
+    try
+        data["atom_type"]
+    catch
+        error("\"atom_type\" has not been included in `data` !")
+    end
+    pos = findall(x->x==atom_type, data["atom_type"][1, :])
+    res = Dict()
+    # Output
+    return res = Dict(
+        "step_vec" => data["step_vec"],
+        "num_atoms" => length(pos),
+        "num_steps" => data["num_steps"],
+        "box_info" => data["box_info"],
+        "atom_info" => data["atom_info"][:, pos, :],
+    )
 end
 
 """
@@ -163,7 +195,7 @@ function momentum!(data::Dict)
         momentum[:, :, dim] .= data["vel"][:, :, dim] * mass_diag
     end
     data["momentum"] = momentum
-    return "momentum has been added to `data`"
+    println("\"momentum\"\thas been added to `data`")
 end
 
 """
@@ -181,9 +213,8 @@ function mass!(data::Dict, mass_vec, id_vec=false)
         mass[findall(x->x==id_vec[i], id)] .= mass_vec[i]
     end
     data["mass"] = mass
-    return "mass has been added to `data`"
+    println("\"mass\" has been added to `data`")
 end
-
 
 """
     function time_step!(data::Dict, time_len, converter, dump_len)
@@ -197,5 +228,5 @@ This will add a component, which is an array contain all information needed to c
 """
 function time_step!(data::Dict, time_len, converter, dump_len)
     data["time_step"] = [time_len, converter, dump_len]
-    return "time_step has been added to `data`"
+    println("\"time_step\" has been added to `data`")
 end

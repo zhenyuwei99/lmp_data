@@ -21,7 +21,7 @@ function MSD!(data::Dict, alpha=10)
         msd[step+1, :, 4] = sum(msd[step+1, :, 1:3], dims=2)
     end
     data["MSD"] = msd
-    return " MSD has been added to `data`"
+    println("\"MSD\"\t\thas been added to `data`")
 end
     
 """
