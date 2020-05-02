@@ -1,5 +1,5 @@
 """
-    function RDF(data_01::Dict, data_02::Dict; num_bins=200, r_cut=10)
+    function RDF(data_01::Dict, data_02::Dict, r_cut, num_bins)
 
 This will retrun an array, which includes information of RDF between atom_01 and atom_02.
 
@@ -12,7 +12,7 @@ This will retrun an array, which includes information of RDF between atom_01 and
 # Notice
 - `data_01` and `data_02` should be Dict with information of one kind of atom, accoplising by `split_atom()`.
 """
-function RDF(data_01::Dict, data_02::Dict, num_bins, r_cut)
+function RDF(data_01::Dict, data_02::Dict, r_cut, num_bins)
     # Reading Input
     
     try

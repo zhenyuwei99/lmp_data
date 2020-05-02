@@ -154,7 +154,7 @@ This will return a new Dict contain elements below:
 - 1) "atom_type" should be included in `data`, which is created by `read_dump`
 - 2) `split_info!` should be called to get details of "atom_info"
 """
-function split_atom(data::Dict; atom_type::Int64)
+function split_atom(data::Dict, atom_type::Int64)
     try
         data["atom_type"]
     catch
