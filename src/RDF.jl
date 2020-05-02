@@ -32,8 +32,8 @@ function RDF(data_01::Dict, data_02::Dict, r_cut, num_bins)
     coord_scl_01 = copy_array(data_01["coord_scl"])
     coord_scl_02 = copy_array(data_02["coord_scl"])
     
-    box_vol = genr_box_vol(data)
-    box_diag = genr_box_diag(data)
+    box_vol = genr_box_vol(data_02)
+    box_diag = genr_box_diag(data_02)
     r_delta = r_cut / num_bins
     rho_02 = num_atoms_02 / box_vol
     
