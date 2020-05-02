@@ -171,6 +171,7 @@ function split_atom(data::Dict, atom_type::Int64)
         "atom_info" => data["atom_info"][:, pos, :],
     )
     @printf("\nInformation of atom with \"atom_type=%d\" has been created!\n", atom_type)
+    return res
 end
 
 """
