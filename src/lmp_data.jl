@@ -1,6 +1,7 @@
 module lmp_data
 
 using Statistics
+using Printf
 
 include("Constants.jl")
 #=
@@ -15,13 +16,16 @@ include("useful_funcs.jl")
 export dist, str2float, diag, copy_array
 
 include("read_dump.jl")
-export read_dump, read_dump_prim, split_info!, split_atom, momentum!, mass!, time_step!
+export read_dump, read_dump_prim, split_info!, split_atom, momentum!, mass!, time_step!, coord_scl!
 
 include("box.jl")
 export genr_box_diag, genr_box_inv, PBC!
 
 include("diffusion.jl")
 export MSD!, diffusion
+
+include("RDF.jl")
+export RDF
 
 
 end # module

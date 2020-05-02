@@ -66,39 +66,39 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     atom_info = data["atom_info"]
     if id != false
         data["id"] = convert.(Int64, atom_info[:, :, id])
-        println("\"id\"\t\thas been added in `data` ")
+        println("\"id\"\t\thas been added to `data` ")
     end
     if atom_type != false
         data["atom_type"] = convert.(Int64, atom_info[:, :, atom_type])
-        println("\"atom_type\"\thas been added in `data` ")
+        println("\"atom_type\"\thas been added to `data` ")
     end
     if mol != false
         data["mol"] = convert.(Int64, atom_info[:, :, mol])
-        println("\"mol\"\thas been added in `data` ")
+        println("\"mol\"\thas been added to `data` ")
     end
     if element != false
         data["element"] = convert.(Int64, atom_info[:, :, element])
-        println("\"element\"\thas been added in `data` ")
+        println("\"element\"\thas been added to `data` ")
     end
     if mass != false
         data["mass"] = atom_info[:, :, mass]
-        println("\"mass\"\thas been added in `data` ")
+        println("\"mass\"\thas been added to `data` ")
     end
     if coord != false
         data["coord"] = atom_info[:, :, coord]
-        println("\"coord\"\thas been added in `data` ")
+        println("\"coord\"\t\thas been added to `data` ")
     end
     if vel != false
         data["vel"] = atom_info[:, :, vel]
-        println("\"vel\"\thas been added in `data` ")
+        println("\"vel\"\thas been added to `data` ")
     end
     if acc != false
         data["acc"] = atom_info[:, :, acc]
-        println("\"acc\"\thas been added in `data` ")
+        println("\"acc\"\thas been added to `data` ")
     end
     if force != false
         data["force"] = atom_info[:, :, force]
-        println("\"force\"\thas been added in `data` ")
+        println("\"force\"\thas been added to `data` ")
     end
 end
         
@@ -139,7 +139,6 @@ function read_dump(dump_name::String; id=false, atom_type=false, mol=false, elem
     data = read_dump_prim(dump_name)
     split_info!(data, id=id, atom_type=atom_type, mol=mol, element=element, mass=mass, 
         coord=coord, vel=vel, acc=acc, force=force)
-    print("\nInformation of atom with \"atom_type=2\" has been created!")
     return data
 end
 
@@ -164,13 +163,14 @@ function split_atom(data::Dict; atom_type::Int64)
     pos = findall(x->x==atom_type, data["atom_type"][1, :])
     res = Dict()
     # Output
-    return res = Dict(
+    res = Dict(
         "step_vec" => data["step_vec"],
         "num_atoms" => length(pos),
         "num_steps" => data["num_steps"],
         "box_info" => data["box_info"],
         "atom_info" => data["atom_info"][:, pos, :],
     )
+    @printf("\nInformation of atom with \"atom_type=%d\" has been created!\n", atom_type)
 end
 
 """
@@ -219,6 +219,7 @@ end
 
 """
     function time_step!(data::Dict, time_len, converter, dump_len)
+
 This will add a component, which is an array contain all information needed to calulate the time in MD_simulation, called "time_step" into `data`.
 
 # Parameters:
@@ -230,4 +231,26 @@ This will add a component, which is an array contain all information needed to c
 function time_step!(data::Dict, time_len, converter, dump_len)
     data["time_step"] = [time_len, converter, dump_len]
     println("\"time_step\"\thas been added to `data`")
+end
+
+"""
+    function coord_scl!(data::Dict)
+
+This will add a component, which is the scaled coordinate within range [0, 1], called "coord_scl" into `data`. 
+"""
+function coord_scl!(data::Dict)
+    try 
+        data["coord"]
+    catch
+        error("\"coord\" has not been included in `data` !")
+    end
+    box_inv = genr_box_inv(data)
+    coord_scl = zeros(size(data["coord"]))
+    
+    for step = 1:data["num_steps"]
+        coord_scl[step, :, :] = data["coord"][step, :, :] * box_inv
+    end
+    
+    data["coord_scl"] = coord_scl
+    println("\"coord_scl\"\thas been added to `data`")
 end
