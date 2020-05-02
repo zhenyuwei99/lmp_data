@@ -1,6 +1,5 @@
 """
     function RDF(data_01::Dict, data_02::Dict, r_cut, num_bins)
-
 This will retrun an array, which includes information of RDF between atom_01 and atom_02.
 
 # `Kwg`
