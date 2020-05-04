@@ -62,7 +62,7 @@ split_info!(data, id=1, atom_type=2, coord=3:5)
 Code above will add three elements, named as "id", "atom_type", and "coord", to data which contains variable in column 1, 2, 3:5 of `data["atom_info"]`
 """
 function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, 
-        coord=false, vel=false, force=false, acc=false)
+        coord=false, coord_scl=false, vel=false, force=false, acc=false)
     atom_info = data["atom_info"]
     if id != false
         data["id"] = convert.(Int64, atom_info[:, :, id])
@@ -87,6 +87,10 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     if coord != false
         data["coord"] = atom_info[:, :, coord]
         println("\"coord\"\t\thas been added to `data` ")
+    end
+    if coord_scl != false
+        data["coord_scl"] = atom_info[:, :, coord_scl]
+        println("\"coord_scl\"\thas been added to `data` ")
     end
     if vel != false
         data["vel"] = atom_info[:, :, vel]
@@ -138,7 +142,7 @@ function read_dump(dump_name::String; id=false, atom_type=false, mol=false, elem
         coord=false, coord_scl=false, vel=false, force=false, acc=false)
     data = read_dump_prim(dump_name)
     split_info!(data, id=id, atom_type=atom_type, mol=mol, element=element, mass=mass, 
-        coord=coord, vel=vel, acc=acc, force=force)
+        coord=coord, coord_scl=coord_scl, vel=vel, acc=acc, force=force)
     return data
 end
 
