@@ -97,7 +97,7 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     end
     if vel != false
         data["vel"] = atom_info[:, :, vel]
-        println("\"vel\"\thas been added to `data` ")
+        println("\"vel\"\t\thas been added to `data` ")
     end
     if acc != false
         data["acc"] = atom_info[:, :, acc]
