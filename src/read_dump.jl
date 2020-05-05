@@ -47,7 +47,7 @@ function read_dump_prim(dump_name::String)
 end
 
 """
-    split_info!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
+    split_info!(data::Dict; id=false, atom_type=false, mol=false, element=false, charge=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
 
 This will split data readed from dump file, adding variable named same as `kwg` before to `data`.
 The value of `kwg` can be `false` or column range of property of interest.
@@ -61,8 +61,7 @@ split_info!(data, id=1, atom_type=2, coord=3:5)
 ```
 Code above will add three elements, named as "id", "atom_type", and "coord", to data which contains variable in column 1, 2, 3:5 of `data["atom_info"]`
 """
-function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=false, mass=false, 
-        coord=false, coord_scl=false, vel=false, force=false, acc=false)
+function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=false, charge=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
     atom_info = data["atom_info"]
     if id != false
         data["id"] = convert.(Int64, atom_info[:, :, id])
@@ -79,6 +78,10 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     if element != false
         data["element"] = convert.(Int64, atom_info[:, :, element])
         println("\"element\"\thas been added to `data` ")
+    end
+    if charge != false
+        data["charge"] = convert.(Int64, atom_info[:, :, element])
+        println("\"charge\"\thas been added to `data` ")
     end
     if mass != false
         data["mass"] = atom_info[:, :, mass]
@@ -107,7 +110,7 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
 end
         
 """
-    read_dump(dump_name::String; id=false, atom_type=false, mol=false, element=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
+    read_dump(dump_name::String; id=false, atom_type=false, mol=false, element=false, charge=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
 
 This will read data in `dump_name` file and return a Dict which contains elements
 - `step_vec`
@@ -138,10 +141,9 @@ Code above will return a Dict contains elements:
 
 Where `id`, `atom_type`, and `coord` are values of `atom_info` in column 1, 2, 3:5 respectively.
 """
-function read_dump(dump_name::String; id=false, atom_type=false, mol=false, element=false, mass=false, 
-        coord=false, coord_scl=false, vel=false, force=false, acc=false)
+function read_dump(dump_name::String; id=false, atom_type=false, mol=false, element=false, charge=false, mass=false, coord=false, coord_scl=false, vel=false, force=false, acc=false)
     data = read_dump_prim(dump_name)
-    split_info!(data, id=id, atom_type=atom_type, mol=mol, element=element, mass=mass, 
+    split_info!(data, id=id, atom_type=atom_type, mol=mol, element=element, charge=charge, mass=mass, 
         coord=coord, coord_scl=coord_scl, vel=vel, acc=acc, force=force)
     return data
 end
