@@ -80,7 +80,7 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
         println("\"element\"\thas been added to `data` ")
     end
     if charge != false
-        data["charge"] = convert.(Int64, atom_info[:, :, element])
+        data["charge"] = convert.(Float64, atom_info[:, :, element])
         println("\"charge\"\thas been added to `data` ")
     end
     if mass != false
@@ -97,7 +97,7 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     end
     if vel != false
         data["vel"] = atom_info[:, :, vel]
-        println("\"vel\"\t\thas been added to `data` ")
+        println("\"vel\"\t\t\thas been added to `data` ")
     end
     if acc != false
         data["acc"] = atom_info[:, :, acc]
@@ -105,7 +105,7 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     end
     if force != false
         data["force"] = atom_info[:, :, force]
-        println("\"force\"\thas been added to `data` ")
+        println("\"force\"\t\thas been added to `data` ")
     end
 end
         
