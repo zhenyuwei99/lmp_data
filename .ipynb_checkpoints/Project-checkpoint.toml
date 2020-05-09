@@ -1,6 +1,0 @@
-name = "lmp_data"
-uuid = "74acee81-3dc4-46a5-b20e-28357b853ac1"
-authors = ["zhenyuwei99 <zhenyuwei99@gmail.com>"]
-version = "0.1.0"
-
-[dep]

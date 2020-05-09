@@ -13,7 +13,7 @@ export Const_k_b, Const_n_a, Const_density_wat,
 =#
 
 include("useful_funcs.jl")
-export dist, str2float, diag, copy_array
+export dist, str2float, diag, copy_array, leastsq
 
 include("read_dump.jl")
 export read_dump, read_dump_prim, split_info!, split_atom, momentum!, mass!, time_step!, coord_scl!
