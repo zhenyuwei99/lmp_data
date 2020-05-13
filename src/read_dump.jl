@@ -73,39 +73,39 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
     end
     if mol != false
         data["mol"] = convert.(Int64, atom_info[1, :, mol])
-        println("\"mol\"\thas been added to `data` ")
+        println("\"mol\"\thas been added to `data`")
     end
     if element != false
         data["element"] = convert.(Int64, atom_info[1, :, element])
-        println("\"element\"\thas been added to `data` ")
+        println("\"element\"\thas been added to `data`")
     end
     if charge != false
         data["charge"] = atom_info[1, :, charge]
-        println("\"charge\"\thas been added to `data` ")
+        println("\"charge\"\thas been added to `data`")
     end
     if mass != false
         data["mass"] = atom_info[1, :, mass]
-        println("\"mass\"\t\thas been added to `data` ")
+        println("\"mass\"\t\thas been added to `data`")
     end
     if coord != false
         data["coord"] = atom_info[:, :, coord]
-        println("\"coord\"\t\thas been added to `data` ")
+        println("\"coord\"\t\thas been added to `data`")
     end
     if coord_scl != false
         data["coord_scl"] = atom_info[:, :, coord_scl]
-        println("\"coord_scl\"\thas been added to `data` ")
+        println("\"coord_scl\"\thas been added to `data`")
     end
     if vel != false
         data["vel"] = atom_info[:, :, vel]
-        println("\"vel\"\t\thas been added to `data` ")
+        println("\"vel\"\t\thas been added to `data`")
     end
     if acc != false
         data["acc"] = atom_info[:, :, acc]
-        println("\"acc\"\thas been added to `data` ")
+        println("\"acc\"\thas been added to `data`")
     end
     if force != false
         data["force"] = atom_info[:, :, force]
-        println("\"force\"\t\thas been added to `data` ")
+        println("\"force\"\t\thas been added to `data`")
     end
 end
         
