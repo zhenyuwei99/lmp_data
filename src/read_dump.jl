@@ -80,7 +80,7 @@ function split_info!(data::Dict; id=false, atom_type=false, mol=false, element=f
         println("\"element\"\thas been added to `data` ")
     end
     if charge != false
-        data["charge"] = convert.(Float64, atom_info[:, :, charge])
+        data["charge"] = atom_info[:, :, charge]
         println("\"charge\"\thas been added to `data` ")
     end
     if mass != false
@@ -149,7 +149,7 @@ function read_dump(dump_name::String; id=false, atom_type=false, mol=false, elem
 end
 
 """
-    split_atom(data::Dict; atom_type::Int64)
+function split_atom(data::Dict, atom_type::Int64)
 This will return a new Dict contain elements below:
 - "step_vec"
 - "num_atoms"

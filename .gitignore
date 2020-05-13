@@ -5,6 +5,7 @@ developing_files
 test_files
 .ipynb_checkpoint
 */.ipynb_checkpoint
+*/.vscode
 .vscode
 
 push.sh
