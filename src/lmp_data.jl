@@ -25,7 +25,7 @@ include("diffusion.jl")
 export MSD!, diffusion
 
 include("RDF.jl")
-export RDF
+export RDF, RDF_double, num_coordination
 
 
 end # module

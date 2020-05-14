@@ -166,7 +166,7 @@ function split_atom(data::Dict, atom_type::Int64)
     catch
         error("\"atom_type\" has not been included in `data` !")
     end
-    pos = findall(x->x==atom_type, data["atom_type"][1, :])
+    pos = findall(x->x==atom_type, data["atom_type"])
     res = Dict()
     # Output
     res = Dict(
@@ -189,12 +189,12 @@ function momentum!(data::Dict)
     try
         data["mass"]
     catch
-        error("Info of \"mass\" is not contained in `data` ")
+        error("Info of \"mass\" is not contained in `data`")
     end
     try
         data["vel"]
     catch
-        error("Info of \"vel\" is not contained in `data` ")
+        error("Info of \"vel\" is not contained in `data`")
     end
     
     momentum = zeros(size(data["vel"]))
