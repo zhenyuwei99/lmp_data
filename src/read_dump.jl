@@ -235,8 +235,8 @@ This will add a component, which is an array contain all information needed to c
 - `converter`: unit converter that convert time_len to second.
 - `dump_len`: length of dump step.
 """
-function time_step!(data::Dict, time_len, converter, dump_len)
-    data["time_step"] = [time_len, converter, dump_len]
+function time_step!(data::Dict, time_len, converter)
+    data["time_step"] = [time_len, converter, data["num_steps"]]
     println("\"time_step\"\thas been added to `data`")
 end
 
